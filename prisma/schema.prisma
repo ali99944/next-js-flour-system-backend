@@ -1,0 +1,82 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Client {
+  id    Int    @id @default(autoincrement())
+  name String
+  address String
+  phone_number String
+  shop_name String
+
+  debt_balance Float @default(0.0)
+
+  created_at String
+  updated_at String?
+  deleted_at String?
+
+  sales Sale[]
+  payments ClientPayment[]
+}
+
+model ClientPayment {
+  id Int @id @default(autoincrement())
+  payment_date String
+  paid_amount Float
+  notes String
+
+  client_id Int
+  client Client @relation(fields: [client_id], references: [id])
+}
+
+model Manager {
+  id Int @id @default(autoincrement())
+  username String
+  password String
+}
+
+model Note {
+  id Int @id @default(autoincrement())
+  title String
+  content String
+  created_at String
+}
+
+model StorageOut {
+  id Int @id @default(autoincrement())
+  flour_class_one_amount Float
+  flour_class_two_amount Float
+  flour_class_three_amount Float
+  flour_class_four_amount Float
+
+  flour_class_one_unit_price Float
+  flour_class_two_unit_price Float
+  flour_class_three_unit_price Float
+  flour_class_four_unit_price Float
+
+  sale_id Int @unique
+  sale Sale @relation(fields: [sale_id], references: [id])
+}
+
+model Sale {
+  id Int @id @default(autoincrement())
+  client_id Int
+  client Client @relation(fields: [client_id], references: [id])
+
+  created_at String
+  total_price Float
+  client_old_debt Float
+  client_new_debt Float
+
+  storage_out StorageOut?
+}
+
+model StorageState {
+  id Int @id @default(autoincrement())
+    
+}
