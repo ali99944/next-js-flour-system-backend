@@ -10,8 +10,8 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const { title, content } = await req.json();
-  
+  const { title, content } = await req.json();  
+    
   
   const note = await prisma.note.create({ 
     data: {
